@@ -1,0 +1,10 @@
+---
+extends: default
+
+ignore: |
+  .flox/cache/*
+
+rules:
+  line-length:
+    ignore: |
+      .github/workflows/*
