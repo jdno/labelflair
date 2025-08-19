@@ -1,2 +1,3 @@
 .flox/cache/
 .flox/env/manifest.lock
+crates/labelflair-cli/tests/commands

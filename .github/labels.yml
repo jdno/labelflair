@@ -1,40 +1,27 @@
 ---
 - name: C-bug
-  color: e74c3c
-  description: "Report a new bug"
+  color: "#ef4444"
 - name: C-dependency
-  color: e74c3c
-  description: "Change or update a dependency"
+  color: "#f87171"
 - name: C-documentation
-  color: e74c3c
-  description: "Improve the documentation"
+  color: "#dc2626"
 - name: C-feature-request
-  color: e74c3c
-  description: "Request a new feature"
+  color: "#fca5a5"
 - name: L-github
-  color: 34495e
-  description: "Tag the GitHub ecosystem"
+  color: "#eab308"
 - name: L-rust
-  color: 34495e
-  description: "Tag the Rust ecosystem"
+  color: "#facc15"
 - name: R-added
-  color: 95a5a6
-  description: "Add a new feature to the release notes"
+  color: "#64748b"
 - name: R-changed
-  color: 95a5a6
-  description: "Add a change in existing functionality to the release notes"
+  color: "#94a3b8"
 - name: R-deprecated
-  color: 95a5a6
-  description: "Add a soon-to-be removed feature to the release notes"
+  color: "#475569"
 - name: R-fixed
-  color: 95a5a6
-  description: "Add a fixed bug to the release notes"
+  color: "#cbd5e1"
 - name: R-ignore
-  color: 95a5a6
-  description: "Do not add this pull request to the release notes"
+  color: "#334155"
 - name: R-removed
-  color: 95a5a6
-  description: "Add a now removed feature to the release notes"
+  color: "#e2e8f0"
 - name: R-security
-  color: 95a5a6
-  description: "Add a vulnerability warning to the release notes"
+  color: "#1e293b"

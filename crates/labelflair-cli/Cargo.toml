@@ -1,0 +1,23 @@
+[package]
+name = "labelflair-cli"
+description = "Generate a colorful GitHub Issues labels from your terminal"
+
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "labelflair"
+path = "src/main.rs"
+
+[dependencies]
+clap = { workspace = true }
+clawless = { workspace = true }
+labelflair = { workspace = true }
+serde_yaml_ng = { workspace = true }
+toml = { workspace = true }
+
+[dev-dependencies]
+trycmd = { workspace = true }
