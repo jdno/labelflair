@@ -1,0 +1,4 @@
+- name: C-bug
+  color: '#ef4444'
+- name: C-feature
+  color: '#f87171'

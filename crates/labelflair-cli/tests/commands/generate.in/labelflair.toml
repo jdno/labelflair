@@ -1,0 +1,4 @@
+[categories]
+prefix = "C-"
+colors = { tailwind = "red" }
+labels = ["bug", "feature"]
