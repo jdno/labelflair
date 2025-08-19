@@ -5,6 +5,22 @@ Generate a colorful palette of labels for your GitHub Issues.
 `labelfair` is a command-line application that takes a simple configuration file
 and generates a set of colorful labels for GitHub Issues.
 
+## Usage
+
+The `labelflair` command-line application reads a configuration file and uses
+that to generate a set of labels for GitHub Issues. The configuration file looks
+like this:
+
+```toml
+# .github/labelflair.toml
+version = "1"
+
+[labels.categories]
+prefix = "C-"
+colors = { tailwind = "red" }
+labels = ["bug", "feature"]
+```
+
 ## Development
 
 Contributing to Labelflair is easy! We use [Flox] to make it easy to set up a
