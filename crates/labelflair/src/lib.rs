@@ -16,6 +16,7 @@
 use typed_fields::name;
 
 pub mod colors;
+pub mod config;
 
 name!(
     /// A color in Labelflair

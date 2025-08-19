@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 use crate::Color;
 
-use self::tailwind::Tailwind;
+pub use self::tailwind::Tailwind;
 
 mod tailwind;
 
