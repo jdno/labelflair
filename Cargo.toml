@@ -19,6 +19,7 @@ rust-version = "1.85.0"
 getset = "0.1.6"
 indoc = "2.0.6"
 serde = { version = "1.0.219", features = ["derive"] }
+serde_yaml_ng = "0.10.0"
 toml = { version = "0.9.5", features = ["serde"] }
 typed-builder = "0.21.1"
 typed-fields = { version = "0.5.2", features = ["serde"] }

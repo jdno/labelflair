@@ -7,8 +7,8 @@
 
 use serde::Deserialize;
 
-use crate::Color;
 use crate::colors::Generate;
+use crate::label::Color;
 
 /// Color generator based on the Tailwind CSS color palettes
 ///
