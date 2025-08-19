@@ -20,7 +20,7 @@ use crate::colors::Generate;
 /// See https://tailwindcss.com/docs/colors for more information on the Tailwind CSS color palettes.
 #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
-#[allow(clippy::missing_docs_in_private_items)] // Enum variants are self-explanatory
+#[allow(missing_docs)] // Enum variants are self-explanatory
 pub enum Tailwind {
     Red,
     Orange,

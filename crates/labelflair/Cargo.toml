@@ -9,7 +9,9 @@ repository.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+getset = { workspace = true }
 serde = { workspace = true }
+typed-builder = { workspace = true }
 typed-fields = { workspace = true }
 
 [dev-dependencies]
