@@ -13,12 +13,6 @@
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
 
-use typed_fields::name;
-
 pub mod colors;
 pub mod config;
-
-name!(
-    /// A color in Labelflair
-    Color
-);
+pub mod label;

@@ -6,7 +6,7 @@
 
 use serde::Deserialize;
 
-use crate::Color;
+use crate::label::Color;
 
 pub use self::tailwind::Tailwind;
 
