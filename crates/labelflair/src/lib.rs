@@ -9,10 +9,107 @@
 //! the library and generate labels directly from a configuration file.
 
 // We are enforcing documentation on all public items in this crate to ensure that the library is
-// well-documented and easy to use. Documentation on private items is not required but encouraged.
+// well-documented and easy to use.
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
+
+use crate::config::v1::ConfigV1;
+use crate::label::Label;
 
 pub mod colors;
 pub mod config;
 pub mod label;
+
+/// Generate a colorful palette of labels for your GitHub Issues
+///
+/// This struct provides the high-level interface to convert a configuration into a list of labels
+/// for GitHub Issues. Its `generate` method takes a configuration and expands it into a list of
+/// labels that can be serialized for use with GitHub's API.
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default)]
+pub struct Labelflair {}
+
+impl Labelflair {
+    /// Generate a list of GitHub Issues labels from the configuration
+    ///
+    /// This function takes a configuration and generates a list of labels based on the groups
+    /// defined in the configuration.
+    ///
+    /// Given this configuration:
+    ///
+    /// ```toml
+    /// [labels.categories]
+    /// prefix = "C-"
+    /// colors = { tailwind = "red" }
+    /// labels = ["bug", "feature"]
+    /// ```
+    ///
+    /// It will generate the following labels:
+    ///
+    /// ```yaml
+    /// - name: C-bug
+    ///   color: '#ef4444'
+    /// - name: C-feature
+    ///   color: '#f87171'
+    /// ```
+    pub fn generate(config: &ConfigV1) -> Vec<Label> {
+        config
+            .groups()
+            .values()
+            .flat_map(|group| group.expand())
+            .collect()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use indoc::indoc;
+
+    use super::*;
+
+    #[test]
+    fn generate() {
+        let toml = indoc! {r#"
+            [categories]
+            prefix = "C-"
+            colors = { tailwind = "red" }
+            labels = ["bug", "feature"]
+
+            [pr]
+            prefix = "P-"
+            colors = { tailwind = "blue" }
+            labels = ["merge", "block"]
+        "#};
+        let config: ConfigV1 = toml::from_str(toml).unwrap();
+
+        let mut labels = Labelflair::generate(&config);
+        let mut expected = vec![
+            Label::builder().name("C-bug").color("#ef4444").build(),
+            Label::builder().name("C-feature").color("#f87171").build(),
+            Label::builder().name("P-block").color("#60a5fa").build(),
+            Label::builder().name("P-merge").color("#3b82f6").build(),
+        ];
+
+        labels.sort();
+        expected.sort();
+
+        assert_eq!(labels, expected);
+    }
+
+    #[test]
+    fn trait_send() {
+        fn assert_send<T: Send>() {}
+        assert_send::<Labelflair>();
+    }
+
+    #[test]
+    fn trait_sync() {
+        fn assert_sync<T: Sync>() {}
+        assert_sync::<Labelflair>();
+    }
+
+    #[test]
+    fn trait_unpin() {
+        fn assert_unpin<T: Unpin>() {}
+        assert_unpin::<Labelflair>();
+    }
+}

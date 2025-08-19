@@ -27,10 +27,12 @@ name!(
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Getters, Serialize, TypedBuilder)]
 pub struct Label {
     /// The name of the label
+    #[builder(setter(into))]
     #[getset(get = "pub")]
     name: LabelName,
 
     /// The color of the label
+    #[builder(setter(into))]
     #[getset(get = "pub")]
     color: Color,
 }
@@ -49,10 +51,7 @@ mod tests {
 
     #[test]
     fn trait_serialize() {
-        let label = Label::builder()
-            .name("bug".into())
-            .color("#FF0000".into())
-            .build();
+        let label = Label::builder().name("bug").color("#FF0000").build();
 
         let serialized = serde_yaml_ng::to_string(&label).unwrap();
         let expected = indoc! {r#"

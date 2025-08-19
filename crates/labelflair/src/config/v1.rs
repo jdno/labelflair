@@ -9,7 +9,8 @@ use serde::Deserialize;
 use typed_builder::TypedBuilder;
 use typed_fields::name;
 
-use crate::colors::Colors;
+use crate::colors::{Colors, Generate};
+use crate::label::{Label, LabelName};
 
 name!(
     /// A name for a group of labels in Labelflair
@@ -19,11 +20,6 @@ name!(
 name!(
     /// A prefix for labels in Labelflair
     Prefix
-);
-
-name!(
-    /// A label in Labelflair
-    Label
 );
 
 /// Configuration for Labelflair version 1
@@ -70,7 +66,30 @@ pub struct Group {
 
     /// A list of labels in this group
     #[getset(get = "pub")]
-    labels: Vec<Label>,
+    labels: Vec<LabelName>,
+}
+
+impl Group {
+    /// Expand the group into a list of labels
+    ///
+    /// This method generates a list of GitHub Issues labels, each with a name and a color. It does
+    /// this by generating a list of colors, optionally prefixing each label name, and then mapping
+    /// names and colors into [`Label`] instances.
+    pub fn expand(&self) -> Vec<Label> {
+        let colors = self.colors.generate(self.labels.len());
+        let prefix = self.prefix.clone().unwrap_or("".into());
+
+        self.labels
+            .iter()
+            .enumerate()
+            .map(|(i, label)| {
+                Label::builder()
+                    .name(format!("{prefix}{label}"))
+                    .color(colors[i].clone())
+                    .build()
+            })
+            .collect()
+    }
 }
 
 #[cfg(test)]
@@ -80,6 +99,23 @@ mod tests {
     use crate::colors::Tailwind;
 
     use super::*;
+
+    #[test]
+    fn expand() {
+        let group = Group::builder()
+            .prefix(Prefix::new("C-"))
+            .colors(Colors::Tailwind(Tailwind::Red))
+            .labels(vec![LabelName::new("bug"), LabelName::new("feature")])
+            .build();
+
+        let labels = group.expand();
+        let expected = vec![
+            Label::builder().name("C-bug").color("#ef4444").build(),
+            Label::builder().name("C-feature").color("#f87171").build(),
+        ];
+
+        assert_eq!(labels, expected);
+    }
 
     #[test]
     fn trait_deserialize() {
@@ -97,7 +133,7 @@ mod tests {
                 Group::builder()
                     .prefix(Prefix::new("C-"))
                     .colors(Colors::Tailwind(Tailwind::Red))
-                    .labels(vec![Label::new("bug"), Label::new("feature")])
+                    .labels(vec!["bug".into(), "feature".into()])
                     .build(),
             )]))
             .build();
