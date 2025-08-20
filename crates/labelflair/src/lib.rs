@@ -85,8 +85,8 @@ mod tests {
         let mut expected = vec![
             Label::builder().name("C-bug").color("#fca5a5").build(),
             Label::builder().name("C-feature").color("#b91c1c").build(),
-            Label::builder().name("P-block").color("#1d4ed8").build(),
-            Label::builder().name("P-merge").color("#93c5fd").build(),
+            Label::builder().name("P-block").color("#93c5fd").build(),
+            Label::builder().name("P-merge").color("#1d4ed8").build(),
         ];
 
         labels.sort();
