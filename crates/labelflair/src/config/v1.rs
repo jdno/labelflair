@@ -79,7 +79,11 @@ impl Group {
         let colors = self.colors.generate(self.labels.len());
         let prefix = self.prefix.clone().unwrap_or("".into());
 
-        self.labels
+        // Sort labels to ensure a nice color palette in GitHub's user interface
+        let mut labels = self.labels.clone();
+        labels.sort();
+
+        labels
             .iter()
             .enumerate()
             .map(|(i, label)| {
@@ -112,6 +116,28 @@ mod tests {
         let expected = vec![
             Label::builder().name("C-bug").color("#fca5a5").build(),
             Label::builder().name("C-feature").color("#b91c1c").build(),
+        ];
+
+        assert_eq!(labels, expected);
+    }
+
+    #[test]
+    fn expand_sorts_labels() {
+        let group = Group::builder()
+            .prefix(Prefix::new("C-"))
+            .colors(Colors::Tailwind(Tailwind::Red))
+            .labels(vec![
+                LabelName::new("feature"),
+                LabelName::new("alpha"),
+                LabelName::new("bug"),
+            ])
+            .build();
+
+        let labels = group.expand();
+        let expected = vec![
+            Label::builder().name("C-alpha").color("#fecaca").build(),
+            Label::builder().name("C-bug").color("#ef4444").build(),
+            Label::builder().name("C-feature").color("#991b1b").build(),
         ];
 
         assert_eq!(labels, expected);
