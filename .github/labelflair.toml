@@ -1,22 +1,30 @@
 [categories]
 prefix = "C-"
 colors = { tailwind = "red" }
-labels = ["bug", "dependency", "documentation", "feature-request"]
+labels = [
+  { name = "bug", description = "Report a new bug" },
+  { name = "dependency", description = "Change or update a dependency" },
+  { name = "documentation", description = "Improve the documentation" },
+  { name = "feature-request", description = "Request a new feature" },
+]
 
 [ecosystems]
 prefix = "L-"
 colors = { tailwind = "yellow" }
-labels = ["github", "rust"]
+labels = [
+  { name = "github", description = "An issue related to GitHub" },
+  { name = "rust", description = "An issue related to Rust" },
+]
 
 [releases]
 prefix = "R-"
 colors = { tailwind = "slate" }
 labels = [
-  "added",
-  "changed",
-  "deprecated",
-  "fixed",
-  "ignore",
-  "removed",
-  "security",
+  { name = "added", description = "Add a new feature to the release notes" },
+  { name = "changed", description = "Add a change in existing functionality to the release notes" },
+  { name = "deprecated", description = "Add a soon-to-be removed feature to the release notes" },
+  { name = "fixed", description = "Add a fixed bug to the release notes" },
+  { name = "ignore", description = "Do not add this pull request to the release notes" },
+  { name = "removed", description = "Add a now removed feature to the release notes" },
+  { name = "security", description = "Add a vulnerability warning to the release notes" },
 ]
