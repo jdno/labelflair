@@ -1,4 +1,4 @@
-args = ["generate", "-c", "labelflair.toml"]
+args = ["generate"]
 bin.name = "labelflair"
 fs.sandbox = true
 status.code = 0

@@ -1,8 +1,8 @@
 //! Generate the labels and write them to a file
 //!
 //! This command generates labels based on the configuration file and writes them to the specified
-//! path. If no path is specified, the labels will be written to the default location at
-//! `.github/labels.yml`.
+//! path. If no path is specified, the labels will be written to the current working directory as
+//! `labels.yml`.
 
 use std::path::{Path, PathBuf};
 
@@ -20,9 +20,10 @@ use labelflair::label::Label;
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Args)]
 struct GenerateArgs {
     /// The path to the configuration file
-    #[clap(short, long, default_value = ".github/labelflair.toml")]
+    #[clap(short, long, default_value = "labelflair.toml")]
     config: PathBuf,
     /// The path to which the generated labels should be written
+    #[clap(default_value = "labels.yml")]
     path: Option<PathBuf>,
 }
 
