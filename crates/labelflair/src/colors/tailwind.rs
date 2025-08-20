@@ -50,11 +50,11 @@ pub enum Tailwind {
 }
 
 impl Tailwind {
-    /// Generate a list of centered indices for the Tailwind color shades
+    /// Generate a list of evenly spaced indices for the Tailwind color shades
     ///
-    /// This method generates a list of indices centered around the middle of the Tailwind color
-    /// palette, providing a balanced distribution of colors. For example, if there are 9 shades and
-    /// a list of 3 is requested, the indices will be: `[3, 4, 5]`, centered around the middle (4).
+    /// If the requested count is less than the number of shades, this method spaces the picked
+    /// indices evenly across the palette. For example, with 9 shades and count=3 it returns
+    /// `[1, 4, 7]`.
     ///
     /// If more colors are requested than available shades, the indices will simply repeat
     /// the palette from the beginning: `[0, 1, 2, ...]`.
@@ -64,17 +64,16 @@ impl Tailwind {
             return Vec::new();
         }
 
-        // If fewer colors are requested than shades are available, we center the indices around the
-        // middle of the palette. Otherwise, we just start from the beginning and repeat the
-        // palette.
-        let mut start = 0;
-        if count < SHADES_COUNT {
-            let center: usize = SHADES_COUNT / 2;
-            let half_span = count / 2; // floor(count/2)
-            start = (center + SHADES_COUNT - (half_span % SHADES_COUNT)) % SHADES_COUNT;
+        // If more colors are requested than available shades, repeat the palette from the start
+        if count > SHADES_COUNT {
+            return (0..count).map(|i| i % SHADES_COUNT).collect();
         }
 
-        (0..count).map(|i| (start + i) % SHADES_COUNT).collect()
+        // Otherwise, distribute picks evenly across the palette using
+        // floor((k + 0.5) * N / M), implemented as integer math: ((2*k + 1) * N) / (2*M)
+        (0..count)
+            .map(|k| ((2 * k + 1) * SHADES_COUNT) / (2 * count))
+            .collect()
     }
 
     /// Get the colors for the Tailwind color palette
@@ -208,7 +207,7 @@ mod tests {
 
         let indices = tailwind.centered_indices(2);
 
-        assert_eq!(indices, vec![3, 4]);
+        assert_eq!(indices, vec![2, 6]);
     }
 
     #[test]
@@ -217,7 +216,52 @@ mod tests {
 
         let indices = tailwind.centered_indices(3);
 
-        assert_eq!(indices, vec![3, 4, 5]);
+        assert_eq!(indices, vec![1, 4, 7]);
+    }
+
+    #[test]
+    fn centered_indices_for_4() {
+        let tailwind = Tailwind::Red;
+
+        let indices = tailwind.centered_indices(4);
+
+        assert_eq!(indices, vec![1, 3, 5, 7]);
+    }
+
+    #[test]
+    fn centered_indices_for_5() {
+        let tailwind = Tailwind::Red;
+
+        let indices = tailwind.centered_indices(5);
+
+        assert_eq!(indices, vec![0, 2, 4, 6, 8]);
+    }
+
+    #[test]
+    fn centered_indices_for_6() {
+        let tailwind = Tailwind::Red;
+
+        let indices = tailwind.centered_indices(6);
+
+        assert_eq!(indices, vec![0, 2, 3, 5, 6, 8]);
+    }
+
+    #[test]
+    fn centered_indices_for_7() {
+        let tailwind = Tailwind::Red;
+
+        let indices = tailwind.centered_indices(7);
+
+        assert_eq!(indices, vec![0, 1, 3, 4, 5, 7, 8]);
+    }
+
+    #[test]
+    fn centered_indices_for_8() {
+        let tailwind = Tailwind::Red;
+
+        let indices = tailwind.centered_indices(8);
+
+        assert_eq!(indices, vec![0, 1, 2, 3, 5, 6, 7, 8]);
     }
 
     #[test]
@@ -258,11 +302,11 @@ mod tests {
         assert_eq!(
             colors,
             vec![
+                "#fee2e2".into(),
                 "#fca5a5".into(),
-                "#f87171".into(),
                 "#ef4444".into(),
-                "#dc2626".into(),
-                "#b91c1c".into()
+                "#b91c1c".into(),
+                "#7f1d1d".into()
             ]
         );
     }
