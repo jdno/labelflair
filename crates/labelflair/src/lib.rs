@@ -47,9 +47,9 @@ impl Labelflair {
     ///
     /// ```yaml
     /// - name: C-bug
-    ///   color: '#ef4444'
-    /// - name: C-feature
     ///   color: '#f87171'
+    /// - name: C-feature
+    ///   color: '#ef4444'
     /// ```
     pub fn generate(config: &ConfigV1) -> Vec<Label> {
         config
@@ -83,10 +83,10 @@ mod tests {
 
         let mut labels = Labelflair::generate(&config);
         let mut expected = vec![
-            Label::builder().name("C-bug").color("#ef4444").build(),
-            Label::builder().name("C-feature").color("#f87171").build(),
-            Label::builder().name("P-block").color("#60a5fa").build(),
-            Label::builder().name("P-merge").color("#3b82f6").build(),
+            Label::builder().name("C-bug").color("#f87171").build(),
+            Label::builder().name("C-feature").color("#ef4444").build(),
+            Label::builder().name("P-block").color("#3b82f6").build(),
+            Label::builder().name("P-merge").color("#60a5fa").build(),
         ];
 
         labels.sort();

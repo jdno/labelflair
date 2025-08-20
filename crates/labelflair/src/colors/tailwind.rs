@@ -10,6 +10,9 @@ use serde::Deserialize;
 use crate::colors::Generate;
 use crate::label::Color;
 
+/// The number of shades available for each Tailwind color
+const SHADES_COUNT: usize = 9;
+
 /// Color generator based on the Tailwind CSS color palettes
 ///
 /// The `Tailwind` enum represents the different colors available in the Tailwind CSS color palette.
@@ -47,39 +50,31 @@ pub enum Tailwind {
 }
 
 impl Tailwind {
-    /// Generate a list of alternating indices for the Tailwind color shades
+    /// Generate a list of centered indices for the Tailwind color shades
     ///
-    /// This method generates a list of indices that alternate between the shades of the Tailwind
-    /// color. It starts from the center shade and alternates outward to provide a balanced
-    /// distribution of colors.
+    /// This method generates a list of indices centered around the middle of the Tailwind color
+    /// palette, providing a balanced distribution of colors. For example, if there are 9 shades and
+    /// a list of 3 is requested, the indices will be: `[3, 4, 5]`, centered around the middle (4).
     ///
-    /// For example, if there are 9 shades and a list of 3 is requested, the indices will be:
-    /// `[4, 3, 5]`, where `4` is the shade at the center of the palette. This provides strong and
-    /// balanced colors for the labels and avoids shades that are more challenging to differentiate
-    /// from other colors due to their brightness or darkness.
-    ///
-    /// If more colors are requested than available shades, the indices will wrap around to
-    /// provide a repeating pattern.
-    fn alternating_indices(&self, count: usize) -> Vec<usize> {
+    /// If more colors are requested than available shades, the indices will simply repeat
+    /// the palette from the beginning: `[0, 1, 2, ...]`.
+    fn centered_indices(&self, count: usize) -> Vec<usize> {
         // If the count is zero, exit early and return an empty vector
         if count == 0 {
             return Vec::new();
         }
 
-        // Establish the number of shades for each color
-        let shades = Tailwind::Red.colors().len();
-
-        // Assign an alternating index to each shade
-        let center: usize = shades / 2;
-        let mut base: Vec<usize> = Vec::with_capacity(shades);
-        base.push(center);
-        for d in 1..=center {
-            base.push(center - d);
-            base.push(center + d);
+        // If fewer colors are requested than shades are available, we center the indices around the
+        // middle of the palette. Otherwise, we just start from the beginning and repeat the
+        // palette.
+        let mut start = 0;
+        if count < SHADES_COUNT {
+            let center: usize = SHADES_COUNT / 2;
+            let half_span = count / 2; // floor(count/2)
+            start = (center + SHADES_COUNT - (half_span % SHADES_COUNT)) % SHADES_COUNT;
         }
 
-        // Generate a list of indices based on the count
-        (0..count).map(|i| base[i % base.len()]).collect()
+        (0..count).map(|i| (start + i) % SHADES_COUNT).collect()
     }
 
     /// Get the colors for the Tailwind color palette
@@ -87,7 +82,7 @@ impl Tailwind {
     /// This method returns a list of colors for each Tailwind color variant. A subset of colors has
     /// been picked from Tailwind's palette, ignoring the brightest and darkest variants because
     /// they are too challenging to differentiate from other colors.
-    fn colors(&self) -> [Color; 9] {
+    fn colors(&self) -> [Color; SHADES_COUNT] {
         match self {
             Tailwind::Red => [
                 "#fee2e2", "#fecaca", "#fca5a5", "#f87171", "#ef4444", "#dc2626", "#b91c1c",
@@ -185,7 +180,7 @@ impl Tailwind {
 impl Generate for Tailwind {
     fn generate(&self, count: usize) -> Vec<Color> {
         let colors = self.colors();
-        let indices = self.alternating_indices(count);
+        let indices = self.centered_indices(count);
 
         indices
             .into_iter()
@@ -199,59 +194,59 @@ mod tests {
     use super::*;
 
     #[test]
-    fn alternating_indices_for_1() {
+    fn centered_indices_for_1() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(1);
+        let indices = tailwind.centered_indices(1);
 
         assert_eq!(indices, vec![4]);
     }
 
     #[test]
-    fn alternating_indices_for_2() {
+    fn centered_indices_for_2() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(2);
+        let indices = tailwind.centered_indices(2);
 
-        assert_eq!(indices, vec![4, 3]);
+        assert_eq!(indices, vec![3, 4]);
     }
 
     #[test]
-    fn alternating_indices_for_3() {
+    fn centered_indices_for_3() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(3);
+        let indices = tailwind.centered_indices(3);
 
-        assert_eq!(indices, vec![4, 3, 5]);
+        assert_eq!(indices, vec![3, 4, 5]);
     }
 
     #[test]
-    fn alternating_indices_for_9() {
+    fn centered_indices_for_9() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(9);
+        let indices = tailwind.centered_indices(9);
 
-        assert_eq!(indices, vec![4, 3, 5, 2, 6, 1, 7, 0, 8]);
+        assert_eq!(indices, vec![0, 1, 2, 3, 4, 5, 6, 7, 8]);
     }
 
     #[test]
-    fn alternating_indices_for_10() {
+    fn centered_indices_for_10() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(10);
+        let indices = tailwind.centered_indices(10);
 
-        assert_eq!(indices, vec![4, 3, 5, 2, 6, 1, 7, 0, 8, 4]);
+        assert_eq!(indices, vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 0]);
     }
 
     #[test]
-    fn alternating_indices_for_18() {
+    fn centered_indices_for_18() {
         let tailwind = Tailwind::Red;
 
-        let indices = tailwind.alternating_indices(18);
+        let indices = tailwind.centered_indices(18);
 
         assert_eq!(
             indices,
-            vec![4, 3, 5, 2, 6, 1, 7, 0, 8, 4, 3, 5, 2, 6, 1, 7, 0, 8]
+            vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
         );
     }
 
@@ -263,10 +258,10 @@ mod tests {
         assert_eq!(
             colors,
             vec![
-                "#ef4444".into(),
-                "#f87171".into(),
-                "#dc2626".into(),
                 "#fca5a5".into(),
+                "#f87171".into(),
+                "#ef4444".into(),
+                "#dc2626".into(),
                 "#b91c1c".into()
             ]
         );
@@ -280,18 +275,18 @@ mod tests {
         assert_eq!(
             colors,
             vec![
-                "#3b82f6".into(),
-                "#60a5fa".into(),
-                "#2563eb".into(),
-                "#93c5fd".into(),
-                "#1d4ed8".into(),
-                "#bfdbfe".into(),
-                "#1e40af".into(),
                 "#dbeafe".into(),
-                "#1e3a8a".into(),
-                "#3b82f6".into(),
+                "#bfdbfe".into(),
+                "#93c5fd".into(),
                 "#60a5fa".into(),
+                "#3b82f6".into(),
                 "#2563eb".into(),
+                "#1d4ed8".into(),
+                "#1e40af".into(),
+                "#1e3a8a".into(),
+                "#dbeafe".into(),
+                "#bfdbfe".into(),
+                "#93c5fd".into(),
             ]
         );
     }
