@@ -110,8 +110,8 @@ mod tests {
 
         let labels = group.expand();
         let expected = vec![
-            Label::builder().name("C-bug").color("#ef4444").build(),
-            Label::builder().name("C-feature").color("#f87171").build(),
+            Label::builder().name("C-bug").color("#f87171").build(),
+            Label::builder().name("C-feature").color("#ef4444").build(),
         ];
 
         assert_eq!(labels, expected);
