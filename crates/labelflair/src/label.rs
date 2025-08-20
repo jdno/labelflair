@@ -20,6 +20,13 @@ name!(
     Color
 );
 
+name!(
+    /// The description of a label
+    ///
+    /// The `Description` type represents an optional description for a label.
+    Description
+);
+
 /// A label for GitHub Issues
 ///
 /// Labels for GitHub Issues are used to categorize and organize issues in a repository. They have a
@@ -35,6 +42,12 @@ pub struct Label {
     #[builder(setter(into))]
     #[getset(get = "pub")]
     color: Color,
+
+    /// An optional description for the label
+    #[builder(default, setter(into))]
+    #[getset(get = "pub")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    description: Option<Description>,
 }
 
 #[cfg(test)]
@@ -51,6 +64,24 @@ mod tests {
 
     #[test]
     fn trait_serialize() {
+        let label = Label::builder()
+            .name("bug")
+            .color("#FF0000")
+            .description(Some("a description for the label".into()))
+            .build();
+
+        let serialized = serde_yaml_ng::to_string(&label).unwrap();
+        let expected = indoc! {r#"
+            name: bug
+            color: '#FF0000'
+            description: a description for the label
+        "#};
+
+        assert_eq!(serialized, expected);
+    }
+
+    #[test]
+    fn trait_serialize_without_description() {
         let label = Label::builder().name("bug").color("#FF0000").build();
 
         let serialized = serde_yaml_ng::to_string(&label).unwrap();
