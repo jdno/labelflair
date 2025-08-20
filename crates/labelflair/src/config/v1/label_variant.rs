@@ -39,7 +39,7 @@ impl LabelVariant {
         }
     }
 
-    /// Retruns the optional description of the label
+    /// Returns the optional description of the label
     pub fn description(&self) -> Option<&Description> {
         match self {
             LabelVariant::Name(_) => None,
