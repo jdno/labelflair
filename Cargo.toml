@@ -15,6 +15,11 @@ repository = "https://github.com/jdno/labelflair.git"
 # Rust edition 2024 requires a minimum Rust version of 1.84.0
 rust-version = "1.85.0"
 
+# The profile that 'cargo-dist' will use to build the CLI
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
 [workspace.dependencies]
 clap = "4.5.45"
 clawless = "0.2.0"

@@ -7,6 +7,9 @@
         "pkg-path": "cargo",
         "pkg-group": "rust-toolchain"
       },
+      "cargo-dist": {
+        "pkg-path": "cargo-dist"
+      },
       "clang": {
         "pkg-path": "clang",
         "systems": [
@@ -780,6 +783,122 @@
       },
       "system": "x86_64-linux",
       "group": "rust-toolchain",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo-dist",
+      "broken": false,
+      "derivation": "/nix/store/9f4w1mnw83vk76d79vryw064la26q8vd-cargo-dist-0.29.0.drv",
+      "description": "Tool for building final distributable artifacts and uploading them to an archive",
+      "install_id": "cargo-dist",
+      "license": "[ Apache-2.0, MIT ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "name": "cargo-dist-0.29.0",
+      "pname": "cargo-dist",
+      "rev": "fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "rev_count": 844474,
+      "rev_date": "2025-08-14T15:51:38Z",
+      "scrape_date": "2025-08-16T01:27:08.885136Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.29.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/zan61zgzs946691z4a2hh4lsilg5h0r4-cargo-dist-0.29.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo-dist",
+      "broken": false,
+      "derivation": "/nix/store/k71apwrdxqwv64lga3xsks7qa6q51qk1-cargo-dist-0.29.0.drv",
+      "description": "Tool for building final distributable artifacts and uploading them to an archive",
+      "install_id": "cargo-dist",
+      "license": "[ Apache-2.0, MIT ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "name": "cargo-dist-0.29.0",
+      "pname": "cargo-dist",
+      "rev": "fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "rev_count": 844474,
+      "rev_date": "2025-08-14T15:51:38Z",
+      "scrape_date": "2025-08-16T01:35:10.394420Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.29.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/101g3yjhiwafyrn13a9x7nmwcsgy52av-cargo-dist-0.29.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo-dist",
+      "broken": false,
+      "derivation": "/nix/store/d84j2cs1y1bcjnd0wdpwjv9l8apbzqz9-cargo-dist-0.29.0.drv",
+      "description": "Tool for building final distributable artifacts and uploading them to an archive",
+      "install_id": "cargo-dist",
+      "license": "[ Apache-2.0, MIT ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "name": "cargo-dist-0.29.0",
+      "pname": "cargo-dist",
+      "rev": "fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "rev_count": 844474,
+      "rev_date": "2025-08-14T15:51:38Z",
+      "scrape_date": "2025-08-16T01:43:49.380177Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.29.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/x4xqjdgvp4dj46cvkl8ak8s7yj7gnxv8-cargo-dist-0.29.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo-dist",
+      "broken": false,
+      "derivation": "/nix/store/8xghjxsrmqgzr0wjk2jw8xbib0iyx996-cargo-dist-0.29.0.drv",
+      "description": "Tool for building final distributable artifacts and uploading them to an archive",
+      "install_id": "cargo-dist",
+      "license": "[ Apache-2.0, MIT ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "name": "cargo-dist-0.29.0",
+      "pname": "cargo-dist",
+      "rev": "fbcf476f790d8a217c3eab4e12033dc4a0f6d23c",
+      "rev_count": 844474,
+      "rev_date": "2025-08-14T15:51:38Z",
+      "scrape_date": "2025-08-16T02:12:00.442078Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.29.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/xgay4g4fr54b263igxpal7hkw7g896fk-cargo-dist-0.29.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
       "priority": 5
     },
     {
