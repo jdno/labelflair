@@ -58,6 +58,7 @@ prettier fix="false" extension="*":
 # Publish the crate to crates.io
 publish:
     cargo publish -p labelflair --all-features --token $CARGO_REGISTRY_TOKEN
+    cargo publish -p labelflair-cli --all-features --token $CARGO_REGISTRY_TOKEN
 
 # Run the tests
 test-rust:
