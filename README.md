@@ -15,10 +15,57 @@ like this:
 # .github/labelflair.toml
 version = "1"
 
+# Create a group of labels that is named "categories"
 [labels.categories]
 prefix = "C-"
 colors = { tailwind = "red" }
 labels = ["bug", "feature"]
+```
+
+Running `labelflair` in the same directory as the configuration file will
+generate a `labels.yml` file that can be used with GitHub Actions such as
+[EndBug/label-sync](https://github.com/EndBug/label-sync) to create the labels
+on GitHub.
+
+### Configuration
+
+The configuration file is a TOML file that defines the labels to be generated.
+Labels are grouped, and each group can have a prefix, a color generator, and a
+list of labels.
+
+```toml
+[labels.<group_name>]
+```
+
+At a minimum, each group must choose a color generator and define a set of
+labels.
+
+```toml
+[labels.minimal]
+colors = { tailwind = "blue" }
+labels = ["bug", "feature", "enhancement"]
+```
+
+You can also specify a prefix for the labels in the group:
+
+```toml
+[labels.area]
+prefix = "A-"
+colors = { tailwind = "green" }
+labels = ["backend", "frontend"]
+```
+
+Labels can either be defined as a simple string or as an object with a `name`
+and `description`:
+
+```toml
+[labels.changelog]
+colors = { tailwind = "slate" }
+labels = [
+    { name = "major", description = "Major changes" },
+    { name = "minor", description = "Minor changes" },
+    { name = "patch", description = "Patch changes" },
+]
 ```
 
 ## Development
