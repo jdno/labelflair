@@ -10,6 +10,7 @@ version = "0.1.0"
 edition = "2024"
 
 license = "Apache-2.0 OR MIT"
+readme = "README.md"
 repository = "https://github.com/jdno/labelflair.git"
 
 # Rust edition 2024 requires a minimum Rust version of 1.84.0
