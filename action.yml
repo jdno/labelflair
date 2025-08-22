@@ -43,5 +43,5 @@ runs:
     - name: "Sync labels"
       uses: EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a # 2.3.3
       with:
-        config-file: "labels.yml"
+        config-file: "./labels.yml"
         dry-run: ${{ inputs.dry-run }}
