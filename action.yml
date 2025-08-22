@@ -1,0 +1,51 @@
+---
+name: "Labelflair"
+description: "Generate a colorful palette of labels for your GitHub Issues"
+
+branding:
+  color: "blue"
+  icon: "bookmark"
+
+inputs:
+  config-file:
+    description: "Path to the labelflair.toml configuration file"
+    default: ".github/labelflair.toml"
+  dry-run:
+    description: "Whether to only print the labels, but not apply them to GitHub"
+    default: "false"
+  version:
+    description: "Version of labelflair-cli to use"
+    default: "0.1.0"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: "Verify version tag format"
+      run: |
+        if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Error: Version must be in the format X.Y.Z (e.g., 0.1.0)"
+          exit 1
+        fi
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+
+    - name: "Install labelflair-cli"
+      run: |
+        curl --proto '=https' --tlsv1.2 -LsSf https://github.com/jdno/labelflair/releases/download/v${VERSION}/labelflair-cli-installer.sh | sh
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+
+    - name: "Generate labels"
+      run: "labelflair generate --config ${CONFIG_FILE}"
+      shell: bash
+      env:
+        CONFIG_FILE: ${{ inputs.config-file }}
+
+    - name: "Sync labels"
+      uses: EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a # 2.3.3
+      with:
+        config-file: "./labels.yml"
+        dry-run: ${{ inputs.dry-run }}

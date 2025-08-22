@@ -1,15 +1,64 @@
 # 🌈 Labelflair
 
-Generate a colorful palette of labels for your GitHub Issues.
+_Generate a colorful palette of labels for your GitHub Issues._
 
-`labelfair` is a command-line application that takes a simple configuration file
-and generates a set of colorful labels for GitHub Issues.
+Labelflair is a simple tool to generate colorful labels for GitHub Issues from a
+[configuration] file. It makes it easy to define groups of related labels,
+assign similar colors to them, and then synchronize them with GitHub using a
+[GitHub Action].
+
+- [Usage](#usage)
+  - [Command-line Application](#command-line-application)
+  - [GitHub Action](#github-action)
+- [Configuration](#configuration)
+  - [`colors`](#colors)
+  - [`labels`](#labels)
+- [Development](#development)
 
 ## Usage
 
-The `labelflair` command-line application reads a configuration file and uses
-that to generate a set of labels for GitHub Issues. The configuration file looks
-like this:
+Labelflair can be installed as a command-line application and used locally to
+generate labels, or it can be used as a [GitHub Action] to automatically create
+and update labels in your GitHub repository.
+
+### Command-line Application
+
+The `labelflair` command-line application reads a [configuration] file and uses
+that to generate a set of labels for GitHub Issues. It can be installed using
+`cargo`:
+
+```bash
+cargo install labelflair-cli
+```
+
+Once installed, you can run `labelflair` in the directory where your
+[configuration] file is located. It will generate a `labels.yml` file that can
+be used with GitHub Actions such as [EndBug/label-sync] to create the labels
+on GitHub.
+
+### GitHub Action
+
+The easiest way to use Labelflair is as a GitHub Action. Simply create a
+[configuration] file in your repository and then add the following step to your
+GitHub Actions workflow:
+
+```yaml
+- name: "Sync GitHub Issues labels"
+  uses: "jdno/labelflair@v0.1.0"
+  with:
+    config-file: ".github/labelflair.toml"
+    # Only run this step on the main branch to avoid creating labels in pull requests
+    dry-run: ${{ github.ref != 'refs/heads/main' }}
+```
+
+This will generate the labels from your `labelflair.toml` configuration file,
+and run another GitHub Action to synchronize them with your repository.
+
+## Configuration
+
+The configuration file is a TOML file that defines the labels to be generated.
+Labels are grouped, and each group can have a prefix, a color generator, and a
+list of labels.
 
 ```toml
 # .github/labelflair.toml
@@ -22,21 +71,6 @@ colors = { tailwind = "red" }
 labels = ["bug", "feature"]
 ```
 
-Running `labelflair` in the same directory as the configuration file will
-generate a `labels.yml` file that can be used with GitHub Actions such as
-[EndBug/label-sync](https://github.com/EndBug/label-sync) to create the labels
-on GitHub.
-
-### Configuration
-
-The configuration file is a TOML file that defines the labels to be generated.
-Labels are grouped, and each group can have a prefix, a color generator, and a
-list of labels.
-
-```toml
-[labels.<group_name>]
-```
-
 At a minimum, each group must choose a color generator and define a set of
 labels.
 
@@ -46,25 +80,44 @@ colors = { tailwind = "blue" }
 labels = ["bug", "feature", "enhancement"]
 ```
 
-You can also specify a prefix for the labels in the group:
+### `colors`
+
+The `colors` property defines how the colors for the labels in this group are
+generated. Currently, only the [Tailwind CSS color palette][tailwind] is
+supported. You can choose any of the available colors from Tailwind CSS, which
+you can find in the [Tailwind CSS documentation][tailwind].
 
 ```toml
-[labels.area]
-prefix = "A-"
-colors = { tailwind = "green" }
-labels = ["backend", "frontend"]
+colors = { tailwind = "slate" }
 ```
 
+### `labels`
+
 Labels can either be defined as a simple string or as an object with a `name`
-and `description`:
+and `description`.
+
+This is a list of simple labels:
 
 ```toml
-[labels.changelog]
-colors = { tailwind = "slate" }
+labels = ["bug", "feature", "enhancement"]
+```
+
+But you can also provide a description for each label:
+
+```toml
 labels = [
     { name = "major", description = "Major changes" },
     { name = "minor", description = "Minor changes" },
     { name = "patch", description = "Patch changes" },
+]
+```
+
+The two forms can be mixed in the same list:
+
+```toml
+labels = [
+    "good first issue",
+    { name = "help wanted", description = "We need your help!" },
 ]
 ```
 
@@ -100,4 +153,8 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
 dual licensed as above, without any additional terms or conditions.
 
+[configuration]: #configuration
+[EndBug/label-sync]: https://github.com/EndBug/label-sync
 [flox]: https://flox.dev
+[github action]: https://github.com/marketplace/actions/labelflair
+[tailwind]: https://tailwindcss.com/docs/colors
