@@ -2,6 +2,10 @@
 name: "Labelflair"
 description: "Generate a colorful palette of labels for your GitHub Issues"
 
+branding:
+  color: "blue"
+  icon: "bookmark"
+
 inputs:
   config-file:
     description: "Path to the labelflair.toml configuration file"
