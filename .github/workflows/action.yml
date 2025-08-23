@@ -25,7 +25,20 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Fetch the latest release
+        id: latest_release
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/jdno/labelflair/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Read default version for action
+        id: default_version
+        run: |
+          DEFAULT_VERSION=$(grep 'version =' action.yml | sed -E 's/.*version: "([^"]+)".*/\1/')
+          echo "DEFAULT_VERSION=$DEFAULT_VERSION" >> $GITHUB_ENV
+
       - name: Sync labels
+        if: steps.latest_release.outputs.VERSION != steps.default_version.outputs.DEFAULT_VERSION
         uses: ./
         with:
           config-file: .github/labelflair.toml
