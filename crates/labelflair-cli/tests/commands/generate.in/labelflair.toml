@@ -1,4 +1,4 @@
-[categories]
+[[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
 labels = ["bug", "feature"]

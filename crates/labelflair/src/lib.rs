@@ -37,7 +37,7 @@ impl Labelflair {
     /// Given this configuration:
     ///
     /// ```toml
-    /// [labels.categories]
+    /// [[group]]
     /// prefix = "C-"
     /// colors = { tailwind = "red" }
     /// labels = ["bug", "feature"]
@@ -54,7 +54,7 @@ impl Labelflair {
     pub fn generate(config: &ConfigV1) -> Vec<Label> {
         config
             .groups()
-            .values()
+            .iter()
             .flat_map(|group| group.expand())
             .collect()
     }
@@ -69,12 +69,12 @@ mod tests {
     #[test]
     fn generate() {
         let toml = indoc! {r#"
-            [categories]
+            [[group]]
             prefix = "C-"
             colors = { tailwind = "red" }
             labels = ["bug", "feature"]
 
-            [pr]
+            [[group]]
             prefix = "P-"
             colors = { tailwind = "blue" }
             labels = ["merge", "block"]
