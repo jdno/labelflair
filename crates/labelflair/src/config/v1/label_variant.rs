@@ -26,7 +26,11 @@ pub enum LabelVariant {
         /// The name of the label
         name: LabelName,
         /// The description for the label
-        description: Description,
+        #[serde(default)]
+        description: Option<Description>,
+        /// Optional aliases for the label
+        #[serde(default)]
+        aliases: Vec<LabelName>,
     },
 }
 
@@ -43,7 +47,15 @@ impl LabelVariant {
     pub fn description(&self) -> Option<&Description> {
         match self {
             LabelVariant::Name(_) => None,
-            LabelVariant::WithDescription { description, .. } => Some(description),
+            LabelVariant::WithDescription { description, .. } => description.as_ref(),
+        }
+    }
+
+    /// Returns the optional aliases of the label
+    pub fn aliases(&self) -> Option<&Vec<LabelName>> {
+        match self {
+            LabelVariant::Name(_) => None,
+            LabelVariant::WithDescription { aliases, .. } => Some(aliases),
         }
     }
 }
@@ -82,7 +94,8 @@ mod tests {
                 LabelVariant::Name("bug".into()),
                 LabelVariant::WithDescription {
                     name: "enhancement".into(),
-                    description: "A new feature or improvement".into(),
+                    description: Some("A new feature or improvement".into()),
+                    aliases: Vec::new(),
                 },
             ],
         };

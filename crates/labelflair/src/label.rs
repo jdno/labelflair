@@ -48,6 +48,12 @@ pub struct Label {
     #[getset(get = "pub")]
     #[serde(skip_serializing_if = "Option::is_none")]
     description: Option<Description>,
+
+    /// Optional aliases for the label
+    #[builder(default, setter(into))]
+    #[getset(get = "pub")]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    aliases: Vec<LabelName>,
 }
 
 #[cfg(test)]

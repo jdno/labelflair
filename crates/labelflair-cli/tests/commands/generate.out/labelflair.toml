@@ -1,4 +1,4 @@
 [[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
-labels = ["bug", "feature"]
+labels = ["bug", "feature", { name = "documentation", aliases = ["docs"] }]

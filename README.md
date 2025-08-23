@@ -13,6 +13,8 @@ assign similar colors to them, and then synchronize them with GitHub using a
 - [Configuration](#configuration)
   - [`colors`](#colors)
   - [`labels`](#labels)
+- [How-to](#how-to)
+  - [Rename a label](#rename-a-label)
 - [Development](#development)
 
 ## Usage
@@ -120,6 +122,36 @@ labels = [
     { name = "help wanted", description = "We need your help!" },
 ]
 ```
+
+## How-to
+
+This section provides a few examples of common tasks you might want to perform
+with Labelflair.
+
+### Rename a Label
+
+Labels can be renamed by changing their name in the configuration file and
+adding the old name as an alias. For example, if you want to rename the label
+`bug` to `defect`, you can change the configuration from this:
+
+```toml
+[[group]]
+prefix = "C-"
+colors = { tailwind = "red" }
+labels = ["bug"]
+```
+
+to this:
+
+```toml
+[[group]]
+prefix = "C-"
+colors = { tailwind = "red" }
+labels = [{ name = "defect", aliases = ["bug"] }]
+```
+
+This allows Labelflair's [GitHub Action] to detect that the label has been
+renamed and update it accordingly on GitHub.
 
 ## Development
 

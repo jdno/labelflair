@@ -7,6 +7,9 @@ ignore: |
 rules:
   comments:
     min-spaces-from-content: 1
+  indentation:
+    ignore: |
+      crates/labelflair-cli/tests/commands/generate.out/labels.yml
   line-length:
     ignore: |
       .github/workflows/*
