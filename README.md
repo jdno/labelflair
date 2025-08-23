@@ -65,7 +65,7 @@ list of labels.
 version = "1"
 
 # Create a group of labels that is named "categories"
-[labels.categories]
+[[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
 labels = ["bug", "feature"]
@@ -75,7 +75,7 @@ At a minimum, each group must choose a color generator and define a set of
 labels.
 
 ```toml
-[labels.minimal]
+[[group]]
 colors = { tailwind = "blue" }
 labels = ["bug", "feature", "enhancement"]
 ```

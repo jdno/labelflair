@@ -2,8 +2,6 @@
 //!
 //! This module defines the configuration structure for Labelflair version 1.
 
-use std::collections::HashMap;
-
 use getset::Getters;
 use serde::Deserialize;
 use typed_builder::TypedBuilder;
@@ -19,12 +17,14 @@ mod label_variant;
 /// This struct represents the configuration for Labelflair version 1. It contains a map of label
 /// groups, where each [`Group`] is identified by a [`GroupName`]. Each group contains an optional
 /// prefix, a color generator, and a list of labels.
-#[derive(Clone, Eq, PartialEq, Debug, Getters, Deserialize, TypedBuilder)]
+#[derive(
+    Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Getters, Deserialize, TypedBuilder,
+)]
 pub struct ConfigV1 {
     /// A map of label groups
     #[getset(get = "pub")]
-    #[serde(flatten)]
-    groups: HashMap<GroupName, Group>,
+    #[serde(rename = "group")]
+    groups: Vec<Group>,
 }
 
 #[cfg(test)]
@@ -38,7 +38,7 @@ mod tests {
     #[test]
     fn trait_deserialize() {
         let toml = indoc! {r#"
-            [categories]
+            [[group]]
             prefix = "C-"
             colors = { tailwind = "red" }
             labels = ["bug", { name = "feature", description = "A new feature" }]
@@ -46,8 +46,7 @@ mod tests {
 
         let config: ConfigV1 = toml::from_str(toml).unwrap();
         let expected = ConfigV1::builder()
-            .groups(HashMap::from([(
-                GroupName::new("categories"),
+            .groups(vec![
                 Group::builder()
                     .prefix(Prefix::new("C-"))
                     .colors(Colors::Tailwind(Tailwind::Red))
@@ -59,7 +58,7 @@ mod tests {
                         },
                     ])
                     .build(),
-            )]))
+            ])
             .build();
 
         assert_eq!(config, expected);
