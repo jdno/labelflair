@@ -1,4 +1,4 @@
 .flox/cache/
 .flox/env/manifest.lock
 .github/workflows/release.yml
-crates/labelflair-cli/tests/commands
+crates/labelflair-cli/tests/commands/**/*

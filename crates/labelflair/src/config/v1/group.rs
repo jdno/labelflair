@@ -81,6 +81,7 @@ impl Group {
                     .name(format!("{prefix}{label}"))
                     .color(colors[i].clone())
                     .description(label.description().cloned())
+                    .aliases(label.aliases().cloned().unwrap_or_default())
                     .build()
             })
             .collect()

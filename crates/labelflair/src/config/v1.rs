@@ -54,7 +54,8 @@ mod tests {
                         LabelVariant::Name("bug".into()),
                         LabelVariant::WithDescription {
                             name: "feature".into(),
-                            description: "A new feature".into(),
+                            description: Some("A new feature".into()),
+                            aliases: Vec::new(),
                         },
                     ])
                     .build(),
