@@ -11,10 +11,7 @@ labels = [
 [ecosystems]
 prefix = "L-"
 colors = { tailwind = "yellow" }
-labels = [
-  { name = "github", description = "An issue related to GitHub" },
-  { name = "rust", description = "An issue related to Rust" },
-]
+labels = [{ name = "rust", description = "An issue related to Rust" }]
 
 [releases]
 prefix = "R-"
@@ -27,4 +24,12 @@ labels = [
   { name = "ignore", description = "Do not add this pull request to the release notes" },
   { name = "removed", description = "Add a now removed feature to the release notes" },
   { name = "security", description = "Add a vulnerability warning to the release notes" },
+]
+
+[tools]
+prefix = "T-"
+colors = { tailwind = "blue" }
+labels = [
+  { name = "CLI", description = "An issue related to the command-line interface" },
+  { name = "GitHub Action", description = "An issue related to the GitHub Action" },
 ]
