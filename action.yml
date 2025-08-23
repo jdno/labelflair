@@ -10,6 +10,9 @@ inputs:
   config-file:
     description: "Path to the labelflair.toml configuration file"
     default: ".github/labelflair.toml"
+  delete-other-labels:
+    description: "Whether to delete labels not defined in the config file"
+    default: "false"
   dry-run:
     description: "Whether to only print the labels, but not apply them to GitHub"
     default: "false"
@@ -23,6 +26,7 @@ runs:
   steps:
     - name: "Verify version tag format"
       run: |
+        # Ensure the version is in the format X.Y.Z
         if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "Error: Version must be in the format X.Y.Z (e.g., 0.1.0)"
           exit 1
@@ -33,6 +37,7 @@ runs:
 
     - name: "Install labelflair-cli"
       run: |
+        # Install the Labelflair CLI
         curl --proto '=https' --tlsv1.2 -LsSf https://github.com/jdno/labelflair/releases/download/v${VERSION}/labelflair-cli-installer.sh | sh
       shell: bash
       env:
@@ -48,4 +53,5 @@ runs:
       uses: EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a # 2.3.3
       with:
         config-file: "./labels.yml"
+        delete-other-labels: ${{ inputs.delete-other-labels }}
         dry-run: ${{ inputs.dry-run }}
