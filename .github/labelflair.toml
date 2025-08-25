@@ -1,4 +1,8 @@
 [[group]]
+colors = { fixed = "#4ade80" }
+labels = ["good-first-issue"]
+
+[[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
 labels = [
