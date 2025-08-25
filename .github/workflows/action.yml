@@ -34,11 +34,12 @@ jobs:
       - name: Read default version for action
         id: default_version
         run: |
-          DEFAULT_VERSION=$(grep 'version =' action.yml | sed -E 's/.*version: "([^"]+)".*/\1/')
+          # Extract the version-like default (X.Y.Z) from action.yml with a single grep, then sed
+          DEFAULT_VERSION=$(grep -E '^\s*default:\s*"[0-9]+\.[0-9]+\.[0-9]+"' action.yml | sed -E 's/.*"([^"]+)".*/\1/')
           echo "DEFAULT_VERSION=$DEFAULT_VERSION" >> $GITHUB_ENV
 
       - name: Sync labels
-        if: steps.latest_release.outputs.VERSION != steps.default_version.outputs.DEFAULT_VERSION
+        if: ${{ env.VERSION == env.DEFAULT_VERSION }}
         uses: ./
         with:
           config-file: .github/labelflair.toml
