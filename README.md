@@ -11,10 +11,10 @@ assign similar colors to them, and then synchronize them with GitHub using a
   - [Command-line Application](#command-line-application)
   - [GitHub Action](#github-action)
 - [Configuration](#configuration)
-  - [`colors`](#colors)
-  - [`labels`](#labels)
-- [How-to](#how-to)
-  - [Rename a label](#rename-a-label)
+  - [Label Groups](#label-groups)
+  - [Individual Labels](#individual-labels)
+- [How-To Guides](#how-to-guides)
+  - [Rename a Label](#rename-a-label)
 - [Development](#development)
 
 ## Usage
@@ -59,14 +59,16 @@ and run another GitHub Action to synchronize them with your repository.
 ## Configuration
 
 The configuration file is a TOML file that defines the labels to be generated.
-Labels are grouped, and each group can have a prefix, a color generator, and a
-list of labels.
+It provides two different ways to define labels: as part of a group of related
+labels, or as individual labels.
+
+### Label Groups
+
+Labels that are related to each other (e.g. categories, priorities, or statuses)
+can be grouped together. In a group, the labels share a common color scheme and
+optionally a common prefix.
 
 ```toml
-# .github/labelflair.toml
-version = "1"
-
-# Create a group of labels that is named "categories"
 [[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
@@ -85,13 +87,32 @@ labels = ["bug", "feature", "enhancement"]
 ### `colors`
 
 The `colors` property defines how the colors for the labels in this group are
-generated. Currently, only the [Tailwind CSS color palette][tailwind] is
-supported. You can choose any of the available colors from Tailwind CSS, which
-you can find in the [Tailwind CSS documentation][tailwind].
+generated. The following color generators are available:
+
+#### Fixed Color
+
+The `fixed` color generator allows you to specify a single color that will be
+used for all labels in the group. The color must be specified as a hex color
+code:
+
+```toml
+colors = { fixed = "#4ade80" }
+```
+
+#### Tailwind CSS
+
+The `tailwind` color generator generates colors based on the
+[Tailwind CSS color palette][tailwind]. You can choose any of the available
+colors from Tailwind CSS, which you can find in the Tailwind CSS documentation.
+Not all shades for each color are used to ensure a good contrast between the
+different colors.
 
 ```toml
 colors = { tailwind = "slate" }
 ```
+
+If you specify more labels than there are shades, the color generator will cycle
+through the available shades again.
 
 ### `labels`
 
@@ -123,7 +144,21 @@ labels = [
 ]
 ```
 
-## How-to
+### Individual Labels
+
+Labels can also be defined individually, outside a group. This is useful for
+one-off labels that don't have any related labels. Individual labels support the
+same properties as labels in a group, but they must also specify a color.
+
+```toml
+[[label]]
+name = "good first issue"
+description = "Good first issue for newcomers"
+color = "#4ade80"
+aliases = ["help wanted"]
+```
+
+## How-To Guides
 
 This section provides a few examples of common tasks you might want to perform
 with Labelflair.

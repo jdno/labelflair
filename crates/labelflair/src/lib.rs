@@ -52,11 +52,16 @@ impl Labelflair {
     ///   color: '#b91c1c'
     /// ```
     pub fn generate(config: &ConfigV1) -> Vec<Label> {
-        config
+        let mut labels = config.labels().clone();
+        let mut labels_from_groups = config
             .groups()
             .iter()
             .flat_map(|group| group.expand())
-            .collect()
+            .collect();
+
+        labels.append(&mut labels_from_groups);
+
+        labels
     }
 }
 
@@ -68,7 +73,11 @@ mod tests {
 
     #[test]
     fn generate() {
-        let toml = indoc! {r#"
+        let toml = indoc! {r##"
+            [[label]]
+            name = "good-first-issue"
+            color = "#4ade80"
+
             [[group]]
             prefix = "C-"
             colors = { tailwind = "red" }
@@ -78,11 +87,15 @@ mod tests {
             prefix = "P-"
             colors = { tailwind = "blue" }
             labels = ["merge", "block"]
-        "#};
+        "##};
         let config: ConfigV1 = toml::from_str(toml).unwrap();
 
         let mut labels = Labelflair::generate(&config);
         let mut expected = vec![
+            Label::builder()
+                .name("good-first-issue")
+                .color("#4ade80")
+                .build(),
             Label::builder().name("C-bug").color("#fca5a5").build(),
             Label::builder().name("C-feature").color("#b91c1c").build(),
             Label::builder().name("P-block").color("#93c5fd").build(),

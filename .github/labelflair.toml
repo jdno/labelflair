@@ -1,6 +1,7 @@
-[[group]]
-colors = { fixed = "#4ade80" }
-labels = ["good-first-issue"]
+[[label]]
+name = "good-first-issue"
+description = "Good issue for newcomers - mentoring available"
+color = "#4ade80"
 
 [[group]]
 prefix = "C-"

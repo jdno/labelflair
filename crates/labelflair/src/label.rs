@@ -4,7 +4,7 @@
 //! for its fields.
 
 use getset::Getters;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
 use typed_fields::name;
 
@@ -31,7 +31,19 @@ name!(
 ///
 /// Labels for GitHub Issues are used to categorize and organize issues in a repository. They have a
 /// unique name and a color represented in hex format.
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Getters, Serialize, TypedBuilder)]
+#[derive(
+    Clone,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Debug,
+    Getters,
+    Deserialize,
+    Serialize,
+    TypedBuilder,
+)]
 pub struct Label {
     /// The name of the label
     #[builder(setter(into))]
@@ -46,13 +58,13 @@ pub struct Label {
     /// An optional description for the label
     #[builder(default, setter(into))]
     #[getset(get = "pub")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     description: Option<Description>,
 
     /// Optional aliases for the label
     #[builder(default, setter(into))]
     #[getset(get = "pub")]
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     aliases: Vec<LabelName>,
 }
 
