@@ -5,7 +5,7 @@
 //! when generating the final labels. The color generator is used to generate colors for the labels
 //! in the group, ensuring a consistent color scheme across related labels.
 
-use getset::{CopyGetters, Getters};
+use getset::Getters;
 use serde::Deserialize;
 use typed_builder::TypedBuilder;
 use typed_fields::name;
@@ -31,17 +31,7 @@ name!(
 /// color generator, and a list of labels. If a prefix is provided, it will be prepended to each
 /// label in the group.
 #[derive(
-    Clone,
-    Eq,
-    PartialEq,
-    Ord,
-    PartialOrd,
-    Hash,
-    Debug,
-    CopyGetters,
-    Getters,
-    Deserialize,
-    TypedBuilder,
+    Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Getters, Deserialize, TypedBuilder,
 )]
 pub struct Group {
     /// An optional prefix for the labels in this group
@@ -51,7 +41,7 @@ pub struct Group {
     prefix: Option<Prefix>,
 
     /// The color generator for this group
-    #[getset(get_copy = "pub")]
+    #[getset(get = "pub")]
     colors: Colors,
 
     /// A list of labels in this group
