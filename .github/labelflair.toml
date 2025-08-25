@@ -1,4 +1,4 @@
-[categories]
+[[group]]
 prefix = "C-"
 colors = { tailwind = "red" }
 labels = [
@@ -8,12 +8,12 @@ labels = [
   { name = "feature-request", description = "Request a new feature" },
 ]
 
-[ecosystems]
+[[group]]
 prefix = "L-"
 colors = { tailwind = "yellow" }
 labels = [{ name = "rust", description = "An issue related to Rust" }]
 
-[releases]
+[[group]]
 prefix = "R-"
 colors = { tailwind = "slate" }
 labels = [
@@ -26,10 +26,10 @@ labels = [
   { name = "security", description = "Add a vulnerability warning to the release notes" },
 ]
 
-[tools]
+[[group]]
 prefix = "T-"
 colors = { tailwind = "blue" }
 labels = [
-  { name = "CLI", description = "An issue related to the command-line interface" },
-  { name = "GitHub Action", description = "An issue related to the GitHub Action" },
+  { name = "cli", description = "An issue related to the command-line interface" },
+  { name = "github-action", description = "An issue related to the GitHub Action" },
 ]
