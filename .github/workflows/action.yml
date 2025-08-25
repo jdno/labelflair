@@ -11,13 +11,13 @@ name: Action
 permissions: {}
 
 jobs:
-  action:
-    name: Sync labels
+  zero_two:
+    name: Test action (0.2.0)
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
-      issues: write
+      issues: read
 
     steps:
       - name: Checkout code
@@ -25,24 +25,15 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Fetch the latest release
-        id: latest_release
+      - name: Generate a configuration file
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/jdno/labelflair/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
-          echo "Published version: $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Read default version for action
-        id: default_version
-        run: |
-          # Extract the version-like default (X.Y.Z) from action.yml with a single grep, then sed
-          DEFAULT_VERSION=$(grep -E '^\s*default:\s*"[0-9]+\.[0-9]+\.[0-9]+"' action.yml | sed -E 's/.*"([^"]+)".*/\1/')
-          echo "Default version: $DEFAULT_VERSION"
-          echo "DEFAULT_VERSION=$DEFAULT_VERSION" >> $GITHUB_ENV
+          echo "[[group]]" > labelflair.toml
+          echo "colors = { tailwind = 'red' }" >> labelflair.toml
+          echo "labels = ['bug']" >> labelflair.toml
 
       - name: Sync labels
-        if: ${{ env.VERSION == env.DEFAULT_VERSION }}
         uses: ./
         with:
-          config-file: .github/labelflair.toml
-          dry-run: ${{ github.ref != 'refs/heads/main' }}
+          config-file: labelflair.toml
+          dry-run: true
+          version: "0.2.0"
