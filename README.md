@@ -46,7 +46,7 @@ GitHub Actions workflow:
 
 ```yaml
 - name: "Sync GitHub Issues labels"
-  uses: "jdno/labelflair@v0.2.0"
+  uses: "jdno/labelflair@v0.3.0"
   with:
     config-file: ".github/labelflair.toml"
     # Only run this step on the main branch to avoid creating labels in pull requests
