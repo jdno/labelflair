@@ -22,8 +22,7 @@ inherits = "release"
 lto = "thin"
 
 [workspace.dependencies]
-clap = "4.5.45"
-clawless = "0.2.0"
+clawless = "0.4.0"
 getset = "0.1.6"
 indoc = "2.0.6"
 labelflair = { path = "crates/labelflair", version = "0.3.0" }

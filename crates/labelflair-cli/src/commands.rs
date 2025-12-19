@@ -4,4 +4,4 @@
 
 mod generate;
 
-clawless::app!();
+clawless::commands!();

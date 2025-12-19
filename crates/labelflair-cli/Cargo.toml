@@ -14,7 +14,6 @@ name = "labelflair"
 path = "src/main.rs"
 
 [dependencies]
-clap = { workspace = true }
 clawless = { workspace = true }
 labelflair = { workspace = true }
 serde_yaml_ng = { workspace = true }

@@ -6,8 +6,7 @@
 
 use std::path::{Path, PathBuf};
 
-use clap::Args;
-use clawless::command;
+use clawless::prelude::*;
 use labelflair::Labelflair;
 use labelflair::config::v1::ConfigV1;
 use labelflair::label::Label;
@@ -32,11 +31,13 @@ struct GenerateArgs {
 /// This function reads the configuration file specified in the arguments, generates the list of
 /// labels, and writes them either to the specified path or to the default location.
 #[command]
-async fn generate(args: GenerateArgs) {
+async fn generate(args: GenerateArgs, _context: Context) -> CommandResult {
     let config = load_config(&args.config);
     let labels = Labelflair::generate(&config);
 
-    write_labels(labels, args.path)
+    write_labels(labels, args.path);
+
+    Ok(())
 }
 
 /// Load the configuration from the specified path
