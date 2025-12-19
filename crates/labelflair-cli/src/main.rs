@@ -8,10 +8,6 @@
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
 
-use clawless::clawless;
-
 mod commands;
 
-fn main() {
-    clawless!()
-}
+clawless::main!();

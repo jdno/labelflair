@@ -68,6 +68,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "anyhow"
+version = "1.0.100"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a23eb6b1614318a8071c9b2521f36b424b2c83db5eb3a0fead4a6c0809af6e61"
+
+[[package]]
 name = "automod"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -153,26 +159,27 @@ checksum = "b94f61472cee1439c0b966b47e3aca9ae07e45d070759512cd390ea2bebc6675"
 
 [[package]]
 name = "clawless"
-version = "0.2.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d68314a4d1e7e304802f798c2bd6f3d7a99f05a6a5af96cb9b7c87e4e9d6ab53"
+checksum = "9c3303ddee326e0717b50a9ce204ee570f8044461e4c4eda3a9b7f5df75ca2a8"
 dependencies = [
+ "anyhow",
  "clap",
  "clawless-derive",
  "getset",
  "inventory",
  "tokio",
  "typed-builder",
+ "typed-fields 0.6.0",
 ]
 
 [[package]]
 name = "clawless-derive"
-version = "0.2.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c9408ab56f415d6402cfced57af43c778b49d9ee8a45463ce22a43bfacf635db"
+checksum = "c4267b5ada6094036fcd94c39e958b6d79fd83c9b75420c81809a7abe7d93dd0"
 dependencies = [
  "darling",
- "getset",
  "proc-macro2",
  "quote",
  "syn",
@@ -570,14 +577,13 @@ dependencies = [
  "serde_yaml_ng",
  "toml",
  "typed-builder",
- "typed-fields",
+ "typed-fields 0.5.2",
 ]
 
 [[package]]
 name = "labelflair-cli"
 version = "0.3.0"
 dependencies = [
- "clap",
  "clawless",
  "labelflair",
  "serde_yaml_ng",
@@ -1153,6 +1159,17 @@ dependencies = [
  "ulid",
  "url",
  "uuid",
+]
+
+[[package]]
+name = "typed-fields"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "01f89646987d495bc5d7b953741f0023849e9b86347ebc6ef54116e6a8999e2d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
