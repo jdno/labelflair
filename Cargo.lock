@@ -170,7 +170,7 @@ dependencies = [
  "inventory",
  "tokio",
  "typed-builder",
- "typed-fields 0.6.0",
+ "typed-fields",
 ]
 
 [[package]]
@@ -580,7 +580,7 @@ dependencies = [
  "serde_yaml_ng",
  "toml",
  "typed-builder",
- "typed-fields 0.5.2",
+ "typed-fields",
 ]
 
 [[package]]
@@ -1160,9 +1160,9 @@ dependencies = [
 
 [[package]]
 name = "typed-fields"
-version = "0.5.2"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "70118d5713b6d9058873a7727b62bf067851371c70ed10403a38705dafaf4603"
+checksum = "01f89646987d495bc5d7b953741f0023849e9b86347ebc6ef54116e6a8999e2d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1172,17 +1172,6 @@ dependencies = [
  "ulid",
  "url",
  "uuid",
-]
-
-[[package]]
-name = "typed-fields"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01f89646987d495bc5d7b953741f0023849e9b86347ebc6ef54116e6a8999e2d"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
