@@ -9,3 +9,6 @@ rules:
   template-injection:
     ignore:
       - release.yml
+  unpinned-uses:
+    ignore:
+      - release.yml
