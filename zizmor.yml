@@ -3,9 +3,18 @@ rules:
   anonymous-definition:
     ignore:
       - release.yml
+  concurrency-limits:
+    ignore:
+      - release.yml
   excessive-permissions:
     ignore:
       - release.yml
   template-injection:
+    ignore:
+      - release.yml
+  undocumented-permissions:
+    ignore:
+      - release.yml
+  unpinned-uses:
     ignore:
       - release.yml

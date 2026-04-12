@@ -7,6 +7,10 @@ name: Continuous Integration
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   targets:
     name: Enumerate Just recipes
@@ -38,7 +42,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      packages: write
       contents: read
 
     needs: targets
@@ -56,8 +59,6 @@ jobs:
 
       - name: Install Flox
         uses: flox/install-flox-action@9428713e8d3883274c334b4b95b8830beebd24d2 # 2.3.0
-        with:
-          version: 1.6.1
 
       - name: Remove Flox installer (if it exists)
         run: rm -f flox.x86_64-linux.deb
