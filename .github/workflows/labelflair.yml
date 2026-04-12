@@ -10,6 +10,10 @@ name: Labelflair
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   action:
     name: Sync labels
@@ -17,7 +21,7 @@ jobs:
 
     permissions:
       contents: read
-      issues: write
+      issues: write # Required to create and delete labels
 
     steps:
       - name: Checkout code

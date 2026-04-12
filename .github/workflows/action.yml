@@ -10,6 +10,10 @@ name: Action
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   zero_two:
     name: Test action (0.2.0)
@@ -17,7 +21,7 @@ jobs:
 
     permissions:
       contents: read
-      issues: read
+      issues: read # Required to fetch the labels
 
     steps:
       - name: Checkout code

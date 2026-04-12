@@ -7,6 +7,10 @@ name: Publish
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   publish:
     name: crates.io
@@ -14,7 +18,7 @@ jobs:
 
     permissions:
       contents: read
-      id-token: write
+      id-token: write # Required to generate an OIDC token for authentication
 
     steps:
       - name: Checkout code
