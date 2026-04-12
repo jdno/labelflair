@@ -572,7 +572,7 @@ dependencies = [
 
 [[package]]
 name = "labelflair"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "getset",
  "indoc",
@@ -585,7 +585,7 @@ dependencies = [
 
 [[package]]
 name = "labelflair-cli"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "clawless",
  "labelflair",
