@@ -31,4 +31,4 @@ serde_yaml_ng = "0.10.0"
 toml = { version = "0.9.5", features = ["serde"] }
 trycmd = "0.15.10"
 typed-builder = "0.23.0"
-typed-fields = { version = "0.5.2", features = ["serde"] }
+typed-fields = { version = "0.6.0", features = ["serde"] }
