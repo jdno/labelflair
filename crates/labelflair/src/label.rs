@@ -10,6 +10,7 @@ use typed_fields::name;
 
 name!(
     /// The name of a label
+    #[derive(Deserialize, Serialize)]
     LabelName
 );
 
@@ -17,6 +18,7 @@ name!(
     /// The color of a label
     ///
     /// The `Color` type represents a color in hex format.
+    #[derive(Deserialize, Serialize)]
     Color
 );
 
@@ -24,6 +26,7 @@ name!(
     /// The description of a label
     ///
     /// The `Description` type represents an optional description for a label.
+    #[derive(Deserialize, Serialize)]
     Description
 );
 
