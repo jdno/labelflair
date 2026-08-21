@@ -6,7 +6,7 @@
 //! in the group, ensuring a consistent color scheme across related labels.
 
 use getset::Getters;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
 use typed_fields::name;
 
@@ -17,11 +17,13 @@ use super::LabelVariant;
 
 name!(
     /// A name for a group of labels in Labelflair
+    #[derive(Deserialize, Serialize)]
     GroupName
 );
 
 name!(
     /// A prefix for labels in Labelflair
+    #[derive(Deserialize, Serialize)]
     Prefix
 );
 
