@@ -4,12 +4,29 @@
 //! path. If no path is specified, the labels will be written to the current working directory as
 //! `labels.yml`.
 
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use clawless::prelude::*;
+use kawauso_config::AncestorsSearch;
+use kawauso_config::Loader;
+use kawauso_config::error::LoadConfigurationError;
 use labelflair::Labelflair;
 use labelflair::config::v1::ConfigV1;
 use labelflair::label::Label;
+
+/// The name of the application whose configuration is loaded
+///
+/// The search looks for a file that has the name of the application and the extension `.toml`,
+/// which means that this constant determines that the configuration file is called
+/// `labelflair.toml`.
+const APPLICATION: &str = "labelflair";
+
+/// The subdirectory that the search reads in addition to each directory itself
+///
+/// Repositories keep the configuration of their tools in `.github`, and Labelflair's own GitHub
+/// Action reads `.github/labelflair.toml` by default. The search reads the directory itself first,
+/// so a project that keeps the file in its root still wins.
+const SUBDIRECTORY: &str = ".github";
 
 /// Generate the labels and write them to a file
 ///
@@ -19,8 +36,12 @@ use labelflair::label::Label;
 #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Args)]
 struct GenerateArgs {
     /// The path to the configuration file
-    #[clap(short, long, default_value = "labelflair.toml")]
-    config: PathBuf,
+    ///
+    /// If no path is given, Labelflair searches the current working directory and its ancestors
+    /// for a `labelflair.toml` file, in the directory itself and in `.github`, and uses the first
+    /// one that it finds.
+    #[clap(short, long)]
+    config: Option<PathBuf>,
     /// The path to which the generated labels should be written
     #[clap(default_value = "labels.yml")]
     path: Option<PathBuf>,
@@ -32,7 +53,7 @@ struct GenerateArgs {
 /// labels, and writes them either to the specified path or to the default location.
 #[command]
 async fn generate(args: GenerateArgs, _context: Context) -> CommandResult {
-    let config = load_config(&args.config);
+    let config = load_config(args.config)?;
     let labels = Labelflair::generate(&config);
 
     write_labels(labels, args.path);
@@ -40,18 +61,24 @@ async fn generate(args: GenerateArgs, _context: Context) -> CommandResult {
     Ok(())
 }
 
-/// Load the configuration from the specified path
+/// Loads the configuration for Labelflair
 ///
-/// This function reads the configuration file at the given path and deserializes it into the
-/// configuration struct. If the file cannot be read or parsed, the function will panic with an
-/// error message.
-fn load_config(path: &Path) -> ConfigV1 {
-    // Read the file at the given path
-    let config_content =
-        std::fs::read_to_string(path).expect("failed to read the configuration file");
+/// This function loads the configuration from the given path. If no path is given, it searches the
+/// current working directory and its ancestors for a `labelflair.toml` file, and loads the first
+/// one that it finds. Each directory is searched before its `.github` subdirectory, and both are
+/// searched before the directory above.
+///
+/// # Errors
+///
+/// Returns an error if no configuration file can be found or read, or if its contents are not a
+/// valid configuration for Labelflair.
+fn load_config(path: Option<PathBuf>) -> Result<ConfigV1, LoadConfigurationError> {
+    let loader = match path {
+        Some(path) => Loader::path(path),
+        None => Loader::ancestors(AncestorsSearch::new(APPLICATION).subdirectory(SUBDIRECTORY)),
+    };
 
-    // Deserialize the content into a ConfigV1 object
-    toml::from_str(&config_content).expect("failed to parse the configuration file")
+    loader.load()
 }
 
 /// Write the generated labels to the specified path

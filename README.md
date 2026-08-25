@@ -33,10 +33,14 @@ that to generate a set of labels for GitHub Issues. It can be installed using
 cargo install labelflair-cli
 ```
 
-Once installed, you can run `labelflair` in the directory where your
-[configuration] file is located. It will generate a `labels.yml` file that can
-be used with GitHub Actions such as [EndBug/label-sync] to create the labels
-on GitHub.
+Once installed, you can run `labelflair` anywhere in your project. It searches
+the current working directory and its parent directories for a `labelflair.toml`
+[configuration] file, and it checks both the directory itself and a `.github`
+subdirectory in it. The first file that it finds wins. Pass `--config` to read
+the configuration from a different path instead.
+
+It will generate a `labels.yml` file that can be used with GitHub Actions such as
+[EndBug/label-sync] to create the labels on GitHub.
 
 ### GitHub Action
 
@@ -58,9 +62,10 @@ and run another GitHub Action to synchronize them with your repository.
 
 ## Configuration
 
-The configuration file is a TOML file that defines the labels to be generated.
-It provides two different ways to define labels: as part of a group of related
-labels, or as individual labels.
+The configuration file is a TOML file named `labelflair.toml` that defines the
+labels to be generated. It can sit in the root of your project or in its
+`.github` directory. It provides two different ways to define labels: as part of
+a group of related labels, or as individual labels.
 
 ### Label Groups
 
