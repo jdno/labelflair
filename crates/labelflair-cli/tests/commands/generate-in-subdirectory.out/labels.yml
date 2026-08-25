@@ -1,0 +1,8 @@
+- name: C-bug
+  color: '#fecaca'
+- name: C-feature
+  color: '#ef4444'
+- name: C-documentation
+  color: '#991b1b'
+  aliases:
+  - docs
