@@ -1,3 +1,6 @@
+# Worktrees from Claude Code
+.claude/worktrees/
+
 # Cache for Prettier 4
 .prettiercache
 

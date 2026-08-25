@@ -1,3 +1,4 @@
+.claude/
 .flox/cache/
 .flox/env/manifest.lock
 .github/workflows/release.yml
