@@ -30,6 +30,6 @@ labelflair = { path = "crates/labelflair", version = "0.3.0" }
 serde = { version = "1.0.219", features = ["derive"] }
 serde_yaml_ng = "0.10.0"
 toml = "1.0.6"
-trycmd = "0.15.10"
+trycmd = "1.0.0"
 typed-builder = "0.23.0"
 typed-fields = "0.7.0"
